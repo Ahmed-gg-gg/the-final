@@ -1,0 +1,13 @@
+{
+  "appId": "com.cybershield.ai",
+  "appName": "CyberShield AI",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "backgroundColor": "#07111fff",
+  "android": {
+    "allowMixedContent": false
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}
