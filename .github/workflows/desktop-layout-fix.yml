@@ -15,71 +15,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Apply responsive desktop fixes
+      - name: Fix academy layout
+        shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
           p = Path('academy.html')
           s = p.read_text(encoding='utf-8')
-
-          old = '#app { max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 80px; }'
-          new = '#app { width: min(100%, 1200px); max-width: 1200px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 90px; }'
-          if old in s:
-              s = s.replace(old, new, 1)
-
-          old_nav = '.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10,14,39,0.9); backdrop-filter: blur(20px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; max-width: 480px; margin: 0 auto; }'
-          new_nav = '.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; width: min(100%, 1200px); background: rgba(10,14,39,0.9); backdrop-filter: blur(20px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; margin: 0 auto; }'
-          if old_nav in s:
-              s = s.replace(old_nav, new_nav, 1)
-
-          s = s.replace('CyberShield - مشروع تخرج الأمن السيبراني', 'CyberShield - معسكر الأمن السيبراني')
-          s = s.replace('Prototype for a Cyber Security final project', 'CyberShield Summer Camp')
-          s = s.replace('50+ سؤال يغطي كل ما تعلمته في المنصة.', '50 سؤالًا يغطي كل ما تعلمته في المنصة.')
-
-          desktop_css = r'''
-@media (min-width: 769px) {
-  #app { width: min(100%, 1200px); max-width: 1200px; }
-  .header { padding: 16px 28px; border-radius: 0 0 18px 18px; }
-  .hero { padding: 34px 24px 30px; }
-  .hero h1 { font-size: 48px; }
-  .hero p { max-width: 760px; margin-left: auto; margin-right: auto; }
-  .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-  .stat-card { padding: 24px 16px; }
-  #page-home.active { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
-  #page-home.active > .badge,
-  #page-home.active > .hero,
-  #page-home.active > .level-widget,
-  #page-home.active > .stats-grid,
-  #page-home.active > .section-title { grid-column: 1 / -1; }
-  #page-home.active > .btn-primary,
-  #page-home.active > .btn-secondary { width: 100%; margin: 0; }
-  #page-home .content-card { margin: 0; min-height: 190px; }
-  .level-widget { margin-left: 0; margin-right: 0; }
-  .section-title { margin-left: 0; margin-right: 0; }
-  .detail-header { padding: 28px 24px; }
-  .detail-content { max-width: 1000px; margin: 0 auto; padding: 0 24px 28px; }
-  .content-card { padding: 28px; }
-  .bottom-nav { width: min(100%, 1200px); border-radius: 18px 18px 0 0; }
-  .nav-item { font-size: 12px; padding: 8px 28px; }
-}
-
-@media (max-width: 768px) {
-  #app { width: 100%; max-width: 480px; }
-  .bottom-nav { max-width: 480px; }
-}
-'''
-          marker = '\n</style>'
-          if desktop_css.strip() not in s:
-              s = s.replace(marker, '\n' + desktop_css + marker, 1)
-
+          s = s.replace('<title>CyberShield - مشروع تخرج الأمن السيبراني</title>', '<title>CyberShield - معسكر الأمن السيبراني</title>', 1)
+          s = s.replace('#app { max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 80px; }', '#app { width: min(100%, 1200px); max-width: 1200px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 90px; }', 1)
+          css = '''\n/* CyberShield responsive layout */\n@media (min-width: 769px) {\n  #app { width: min(100%, 1200px); max-width: 1200px; }\n  .header { padding: 16px 28px; border-radius: 0 0 18px 18px; }\n  .hero { padding: 34px 24px 30px; }\n  .hero h1 { font-size: 48px; }\n  .hero p { max-width: 760px; margin-left: auto; margin-right: auto; }\n  .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }\n  .stat-card { padding: 24px 16px; }\n  .content-card { margin-left: 0; margin-right: 0; }\n  .detail-content { max-width: 1000px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }\n  .detail-header { padding-left: 24px; padding-right: 24px; }\n  .bottom-nav { width: min(100%, 1200px); border-radius: 18px 18px 0 0; }\n  .nav-item { padding-left: 28px; padding-right: 28px; }\n}\n@media (min-width: 1024px) {\n  #page-home.active { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }\n  #page-home.active > .badge, #page-home.active > .hero, #page-home.active > .level-widget, #page-home.active > .stats-grid, #page-home.active > .section-title { grid-column: 1 / -1; }\n  #page-home .content-card { margin: 0; min-height: 190px; }\n}\n@media (max-width: 768px) { #app { width: 100%; max-width: 480px; } }\n'''
+          if '/* CyberShield responsive layout */' not in s:
+              s = s.replace('</style>', css + '</style>', 1)
           p.write_text(s, encoding='utf-8')
           PY
 
-      - name: Commit changes and remove fixer
+      - name: Commit layout fix
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add academy.html .github/workflows/desktop-layout-fix.yml
-          git rm .github/workflows/desktop-layout-fix.yml
-          git commit -m "Make CyberShield responsive on desktop" || exit 0
+          git add academy.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Fix CyberShield desktop responsive layout"
           git push
