@@ -1,0 +1,34 @@
+name: Fix Academy desktop screen sizing
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix-screen:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Force responsive desktop sizing
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('academy.html')
+          s = p.read_text(encoding='utf-8')
+          css = '''\n/* Final desktop screen sizing fix */\n@media (min-width: 769px) {\n  html, body { width: 100% !important; min-width: 100% !important; }\n  #mainApp { width: 100% !important; max-width: none !important; }\n  #app { width: min(92vw, 1400px) !important; max-width: 1400px !important; margin-left: auto !important; margin-right: auto !important; }\n  .page { width: 100% !important; }\n  .header { width: 100% !important; }\n  .hero { width: 100% !important; }\n  .level-widget { width: auto !important; }\n  .stats-grid { width: auto !important; }\n  .bottom-nav { width: min(92vw, 1400px) !important; max-width: 1400px !important; left: 50% !important; right: auto !important; transform: translateX(-50%) !important; }\n}\n@media (max-width: 768px) {\n  #app { width: 100% !important; max-width: 480px !important; }\n  .bottom-nav { max-width: 480px !important; }\n}\n'''
+          if '/* Final desktop screen sizing fix */' not in s:
+              s = s.replace('</style>', css + '</style>', 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add academy.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Fix Academy desktop screen size"
+          git push
