@@ -260,6 +260,23 @@ body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--tex
   #page-home .content-card { margin: 0; min-height: 190px; }
 }
 @media (max-width: 768px) { #app { width: 100%; max-width: 480px; } }
+
+/* Final desktop screen sizing fix */
+@media (min-width: 769px) {
+  html, body { width: 100% !important; min-width: 100% !important; }
+  #mainApp { width: 100% !important; max-width: none !important; }
+  #app { width: min(92vw, 1400px) !important; max-width: 1400px !important; margin-left: auto !important; margin-right: auto !important; }
+  .page { width: 100% !important; }
+  .header { width: 100% !important; }
+  .hero { width: 100% !important; }
+  .level-widget { width: auto !important; }
+  .stats-grid { width: auto !important; }
+  .bottom-nav { width: min(92vw, 1400px) !important; max-width: 1400px !important; left: 50% !important; right: auto !important; transform: translateX(-50%) !important; }
+}
+@media (max-width: 768px) {
+  #app { width: 100% !important; max-width: 480px !important; }
+  .bottom-nav { max-width: 480px !important; }
+}
 </style>
 <base target="_blank">
 </head>
