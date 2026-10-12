@@ -68,11 +68,8 @@
           <span id="navTime" class="clock-time">--:--:--</span>
           <span id="navDate" class="clock-date">--</span>
         </div>
-        <div class="ai-status" title="AI engine status">
-          <span class="status-dot"></span>
-          <span>AI Status: <strong id="aiStatus">ONLINE</strong></span>
-        </div>
-      </div>
+        <div class="ai-status" title="Local file analysis status"><span class="status-dot"></span><span>Engine: <strong>RULE-BASED</strong></span></div>
+</div>
     </header>
 
     <!-- ---------- LEFT SIDEBAR MENU ---------- -->
@@ -105,11 +102,7 @@
       </nav>
 
       <!-- Live mini monitor at bottom of sidebar -->
-      <div class="sidebar-monitor">
-        <div class="monitor-row"><span>Live traffic</span><span id="liveTraffic" class="mono">0 Mb/s</span></div>
-        <div class="mini-bars" id="miniBars"></div>
-      </div>
-    </aside>
+      </aside>
 
     <!-- ---------- MAIN CONTENT AREA ---------- -->
     <main class="content" id="content">
@@ -118,7 +111,7 @@
       <section class="page active" data-page="dashboard">
         <div class="page-head">
           <h2>Security Dashboard</h2>
-          <p class="page-sub">Real-time overview of your protected environment</p>
+          <p class="page-sub">Recorded file scan history only — no live system protection is active.</p>
         </div>
 
         <div class="cards-grid">
@@ -151,7 +144,7 @@
               </svg>
               <div class="gauge-center"><span id="systemHealthValue">0</span><small>%</small></div>
             </div>
-            <span class="stat-foot">Optimal performance</span>
+            <span class="stat-foot">Not measured by this application</span>
           </article>
 
           <!-- Protected Files -->
@@ -170,27 +163,21 @@
               <span class="stat-label">Network Status</span>
               <svg viewBox="0 0 24 24" class="stat-ico accent"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8Z"/></svg>
             </div>
-            <div class="big-number ok" id="networkStatus">Secure</div>
-            <span class="stat-foot">Network monitoring unavailable</span>
+            <div class="big-number ok" id="networkStatus">Unavailable</div>
+            <span class="stat-foot">Native monitor not connected</span>
           </article>
 
 </div>
 
-        <!-- Wide activity chart -->
-        <article class="card wide-card">
-          <div class="card-head">
-            <h3>Threat Activity (last 24h)</h3>
-            <span class="legend"><i class="dot accent"></i>Blocked <i class="dot danger"></i>Detected</span>
-          </div>
-          <canvas id="activityChart" height="140"></canvas>
-        </article>
       </section>
+
+      <!-- ===== PAGE: FILE SCANNER      </section>
 
       <!-- ===== PAGE: FILE SCANNER (Rule-Based Detection Engine) ===== -->
       <section class="page" data-page="scanner">
         <div class="page-head">
           <h2>File Scanner</h2>
-          <p class="page-sub">Static file analysis powered by the CyberShield Rule-Based Detection Engine</p>
+          <p class="page-sub">Local static file analysis using rules, file signatures, metadata, and content indicators.</p>
         </div>
 
         <div class="scanner-wrap">
@@ -287,50 +274,29 @@
       <section class="page" data-page="network">
         <div class="page-head">
           <h2>Network Monitor</h2>
-          <p class="page-sub">Live global connections, firewall status and traffic analysis</p>
-        </div>
-
-        <div class="network-grid">
-          <article class="card map-card">
-            <div class="card-head"><h3>Global Connections</h3><span class="mono" id="mapConnCount">0 nodes</span></div>
-            <div class="world-map" id="worldMap"><!-- SVG map + nodes injected by JS --></div>
-          </article>
-
-          <article class="card">
-            <div class="card-head"><h3>Firewall</h3></div>
-            <div class="firewall-state" id="firewallState">
-              <div class="fw-ring"><span>ACTIVE</span></div>
-              <ul class="fw-stats">
-                <li><span>Rules</span><b id="fwRules">248</b></li>
-                <li><span>Blocked today</span><b id="fwBlocked">0</b></li>
-                <li><span>Open ports</span><b id="fwPorts">3</b></li>
-              </ul>
-            </div>
-          </article>
-
-<article class="card">
-            <div class="card-head"><h3>Packets</h3><span class="muted">Native monitor not connected</span></div>
-            <div class="packet-stats">
-              <div><span class="mono big" id="packetsIn">0</span><small>Inbound</small></div>
-              <div><span class="mono big" id="packetsOut">0</span><small>Outbound</small></div>
-              <div><span class="mono big danger" id="packetsDropped">0</span><small>Dropped</small></div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- ===== PAGE: LOGS ===== -->
-      <section class="page" data-page="logs">
-        <div class="page-head">
-          <h2>Event Logs</h2>
-          <p class="page-sub">Chronological timeline of security events</p>
+          <p class="page-sub">System-wide network monitoring is not connected in this build.</p>
         </div>
         <article class="card">
-          <ul class="timeline" id="timeline"><!-- injected by JS --></ul>
+          <div class="card-head"><h3>Network telemetry unavailable</h3></div>
+          <p class="muted">No live connections, firewall state, port counts, or packet activity are collected by CyberShield AI. This screen will remain unavailable until a native Windows monitoring component is implemented and tested.</p>
         </article>
       </section>
 
-      <!-- ===== PAGE: SETTINGS ===== -->
+            <!-- ===== PAGE: LOGS ===== -->
+      <section class="page" data-page="logs">
+        <div class="page-head">
+          <h2>Event Logs</h2>
+          <p class="page-sub">Recorded file scan events only.</p>
+        </div>
+        <article class="card">
+          <div class="card-head"><h3>Scan history</h3></div>
+          <div id="logsTimeline" class="logs-timeline">
+            <p class="muted">No recorded scan events yet. Scan a file to create an entry.</p>
+          </div>
+        </article>
+      </section>
+
+            <!-- ===== PAGE: SETTINGS ===== -->
       <section class="page" data-page="settings">
         <div class="page-head">
           <h2>Settings</h2>
@@ -345,14 +311,8 @@
             <div><h4>Notifications</h4><p>Show live threat notifications.</p></div>
             <label class="switch"><input type="checkbox" id="setNotifications" checked><span class="slider"></span></label>
           </div>
-          <div class="setting-row">
-            <div><h4>Automatic Scan</h4><p>Run a background AI scan every few minutes.</p></div>
-            <label class="switch"><input type="checkbox" id="setAutoScan"><span class="slider"></span></label>
-          </div>
-          <div class="setting-row">
-            <div><h4>VirusTotal Cloud Scan</h4><p>Use VirusTotal multi-engine analysis for the final file verdict.</p></div>
-            <label class="switch"><input type="checkbox" id="setCloudAI" checked><span class="slider"></span></label>
-          </div>
+          <div class="setting-row"><div><h4>Automatic Scan</h4><p>Unavailable: background scanning is not implemented in this build.</p></div><label class="switch"><input type="checkbox" id="setAutoScan" disabled><span class="slider"></span></label></div>
+          <div class="setting-row"><div><h4>Online reputation check</h4><p>Optional cloud scanning requires a configured API key and explicit file-upload consent. Local analysis remains separate.</p></div><label class="switch"><input type="checkbox" id="setCloudAI" disabled><span class="slider"></span></label></div>
           <div class="setting-row">
             <div><h4>Language</h4><p>Interface language.</p></div>
             <select id="setLanguage" class="select">
