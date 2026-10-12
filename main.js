@@ -67,7 +67,7 @@ function createWindow() {
   });
 
   // Load the existing web app
-  mainWindow.loadFile("index.html");
+  mainWindow.loadFile("desktop.html");
 
   // Show the window once the content has painted
   mainWindow.once("ready-to-show", () => mainWindow.show());

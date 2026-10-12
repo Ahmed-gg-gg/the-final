@@ -1,8 +1,4 @@
 
-## Startup mode selection
-
-CyberShield now starts with a choice between the existing CyberShield AI and the existing CyberShield Academy. The original scanner project is preserved; Academy opens `academy.html`.
-
 # CyberShield AI
 
 **Predict Before You Get Hacked** — a futuristic, AI-themed cybersecurity dashboard.
@@ -15,18 +11,18 @@ Available as a **web app**, **desktop app** (installable PWA + Electron), and **
 
 ## Features
 
-- **Login screen** with AI typing effect, animated scan line, and fade transition into the dashboard.
+- **Direct startup** into the CyberShield AI dashboard; the fake login screen and mode chooser have been removed.
 - **Dashboard** with animated circular gauges (Threat Level, System Health), live count-ups (Protected Files, Network Status), and rolling **CPU / RAM** sparklines and bars.
 - **AI Scanner** with a glowing shield, rotating scan sweep, animated progress bar, and live status messages (`Analyzing processes...`, `Checking USB...`, etc.).
 - **Deterministic local scanner**: the same file always produces the same local result (SHA-256, magic-number type detection, extension/name/size/content rules).
 - **VirusTotal integration (desktop/Electron)**: when `CYBERSHIELD_VT_API_KEY` is configured, VirusTotal multi-engine results become the final verdict. No random scan verdicts are generated.
 - **Quarantine animation** — "Threat isolated successfully."
 - **Threats** table with live status (active / quarantined / removed).
-- **Network** page with an animated world map, connection nodes, firewall status ring, rolling traffic graph, and live packet counters.
+- **Network** page retains the map and packet section. It does not claim live packet monitoring until a native telemetry provider is implemented.
 - **Logs** timeline of security events.
 - **Settings** with working toggles (Notifications, Auto Scan, Cloud AI, Language).
 - **About** page with version and project info.
-- **Bonus effects:** animated matrix background, floating connected particles, mouse-follow glow, neon buttons, live toast notifications, and fake live monitoring.
+- **Visual effects:** animated matrix background, floating connected particles, mouse-follow glow, and neon buttons. Simulated live-monitoring notifications and CPU/RAM charts are not presented as real telemetry.
 
 ## Tech Stack
 
@@ -73,7 +69,7 @@ CyberShield-AI/
 
 **Option 2: Local server (http://)** — enables PWA installation and offline mode:
 1. Double-click **`serve.bat`** (or run `powershell -ExecutionPolicy Bypass -File serve.ps1`).
-2. Browser opens at `http://localhost:8080` → log in and use the app.
+2. Browser opens at `http://localhost:8080` → the dashboard opens directly.
 3. Look for an **Install** button in the browser address bar (Chrome/Edge) or inside the app navbar.
 
 ---
@@ -147,10 +143,9 @@ The browser/PWA version continues to use the deterministic local scanner because
 ## Presentation Tips
 
 - **Web/PWA demo:** Run `serve.bat`, install to desktop live, show the icon and standalone window.
-- **AI Scanner:** Run 2–3 scans back-to-back to prove results are randomized.
-- **Quarantine:** Click "Quarantine" on a detected threat → watch the isolation animation.
-- **Network:** Show the animated world map and live traffic graph.
-- **Auto Scan:** Enable it in Settings to demonstrate "live monitoring" background toasts.
+- **File Scanner:** Local results come from deterministic rule-based analysis; validate detections against safe test files before presenting.
+- **Network:** The map is a visualization, not proof of live network monitoring. Do not present packet counters as live telemetry until a native monitor is implemented.
+- **Auto Scan:** Do not describe this as system-wide real-time protection; browser/PWA builds cannot monitor arbitrary files on the device.
 
 ---
 
