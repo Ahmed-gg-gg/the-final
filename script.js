@@ -267,10 +267,6 @@ function startMiniBars() {
 }
 
 /* Dashboard activity chart (bars: blocked vs detected) */
-function drawActivityChart() {
-  // Activity telemetry was removed because no native network monitor exists.
-}
-
 /* =============================================================
    5) THE REAL RULE-BASED FILE SCANNER
    Uses the engine in scanner/*.js. No Math.random() here:
