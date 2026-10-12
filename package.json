@@ -34,7 +34,8 @@
       "preload.js",
       "assets/**/*",
       "scanner/**/*",
-      "virustotal.js"
+      "virustotal.js",
+      "desktop.html"
     ],
     "win": {
       "target": [
