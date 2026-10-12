@@ -71,6 +71,7 @@
       ],
       "icon": "build/icon.png",
       "category": "Utility"
-    }
+    },
+    "publish": null
   }
 }
