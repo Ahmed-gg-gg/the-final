@@ -27,41 +27,10 @@
   <meta name="apple-mobile-web-app-title" content="CyberShield AI" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
-<style id="cybershield-mode-choice-style">
-#modeChoiceScreen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at top,#0d2940 0%,#050b14 55%,#02050a 100%);font-family:Poppins,Arial,sans-serif;color:#fff}
-.mode-choice-card{width:min(920px,100%);padding:42px;border:1px solid rgba(0,229,255,.18);border-radius:28px;background:rgba(8,18,31,.78);backdrop-filter:blur(18px);box-shadow:0 30px 90px rgba(0,0,0,.5);text-align:center}
-.mode-choice-card .mc-logo{width:76px;height:76px;margin:0 auto 18px}
-.mode-choice-card h1{font-size:clamp(30px,5vw,48px);margin:0 0 8px}.mode-choice-card h1 span{color:#00e5ff}.mode-choice-card p{color:#9db0c2;margin:0 auto 30px;max-width:620px}
-.mode-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.mode-choice-btn{border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:28px 22px;background:rgba(255,255,255,.035);color:#fff;cursor:pointer;text-align:left;transition:.25s}.mode-choice-btn:hover{transform:translateY(-4px);border-color:#00e5ff;background:rgba(0,229,255,.07);box-shadow:0 18px 45px rgba(0,229,255,.1)}.mode-choice-icon{font-size:42px;margin-bottom:14px}.mode-choice-btn h2{margin:0 0 8px;font-size:22px}.mode-choice-btn p{font-size:14px;line-height:1.7;margin:0;color:#9db0c2}.mode-choice-btn .mc-enter{display:inline-block;margin-top:18px;color:#00e5ff;font-weight:700}
-@media(max-width:700px){.mode-choice-card{padding:28px 18px}.mode-choice-grid{grid-template-columns:1fr}}
-</style>
+
 </head>
 <body>
-<section id="modeChoiceScreen" aria-label="Choose CyberShield mode">
-  <div class="mode-choice-card">
-    <div class="mc-logo">
-      <svg viewBox="0 0 64 64" width="76" height="76"><path d="M32 3 L57 13 V31 C57 47 46 57 32 61 C18 57 7 47 7 31 V13 Z" fill="none" stroke="#00e5ff" stroke-width="3"/><path d="M22 32 l7 7 l14 -15" fill="none" stroke="#00ff95" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <h1>Cyber<span>Shield</span> AI</h1>
-    <p>Choose how you want to use CyberShield.</p>
-    <div class="mode-choice-grid">
-      <button class="mode-choice-btn" id="chooseScanner" type="button">
-        <div class="mode-choice-icon">🦠</div>
-        <h2>CyberShield AI</h2>
-        <p>Use the existing CyberShield file scanner with VirusTotal cloud analysis.</p>
-        <span class="mc-enter">Enter Scanner →</span>
-      </button>
-      <button class="mode-choice-btn" id="chooseAcademy" type="button">
-        <div class="mode-choice-icon">🎓</div>
-        <h2>CyberShield Academy</h2>
-        <p>Open the existing CyberShield educational platform with its lessons, simulations, games and quizzes.</p>
-        <span class="mc-enter">Enter Academy →</span>
-      </button>
-    </div>
-  </div>
-</section>
-
-  <!-- ============================================================
+<!-- ============================================================
        ANIMATED BACKGROUND LAYERS
        - matrixCanvas : falling code "matrix" effect
        - particleCanvas: floating connected particles
@@ -77,65 +46,7 @@
   <!-- ============================================================
        LOGIN SCREEN
   ============================================================= -->
-  <section id="loginScreen" class="login-screen">
-    <div class="login-card glass">
-      <div class="login-logo">
-        <!-- Shield SVG logo -->
-        <svg viewBox="0 0 64 64" class="logo-svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#00e5ff" />
-              <stop offset="100%" stop-color="#00ff95" />
-            </linearGradient>
-          </defs>
-          <path d="M32 3 L57 13 V31 C57 47 46 57 32 61 C18 57 7 47 7 31 V13 Z"
-                fill="none" stroke="url(#logoGrad)" stroke-width="3" />
-          <path d="M22 32 l7 7 l14 -15" fill="none" stroke="url(#logoGrad)"
-                stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </div>
-
-      <h1 class="brand-title">Cyber<span>Shield</span> AI</h1>
-      <p class="brand-subtitle" id="loginTypeText"></p>
-
-      <form id="loginForm" class="login-form" autocomplete="off">
-        <div class="field">
-          <label for="username">Username</label>
-          <div class="input-wrap">
-            <!-- user icon -->
-            <svg viewBox="0 0 24 24" class="field-icon"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6Z"/></svg>
-            <input type="text" id="username" name="username" placeholder="admin" value="admin" required />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="password">Password</label>
-          <div class="input-wrap">
-            <!-- lock icon -->
-            <svg viewBox="0 0 24 24" class="field-icon"><path d="M17 9V7a5 5 0 0 0-10 0v2H5v13h14V9h-2ZM9 7a3 3 0 0 1 6 0v2H9V7Zm3 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
-            <input type="password" id="password" name="password" placeholder="••••••••" value="cybershield" required />
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
-          <span class="btn-label">Login</span>
-          <span class="btn-spinner" hidden></span>
-        </button>
-
-        <p class="login-hint">Demo access &mdash; any username / password works.</p>
-      </form>
-
-      <!-- Scanning line animation across the card -->
-      <div class="scanline"></div>
-    </div>
-
-    <p class="disclaimer">Prototype for a Cyber Security final project &middot; Not a real antivirus.</p>
-  </section>
-
-  <!-- ============================================================
-       APP SHELL (hidden until login)
-  ============================================================= -->
-  <div id="appShell" class="app-shell" hidden>
+  <div id="appShell" class="app-shell">
 
     <!-- ---------- TOP NAVBAR ---------- -->
     <header class="navbar glass">
@@ -161,9 +72,6 @@
           <span class="status-dot"></span>
           <span>AI Status: <strong id="aiStatus">ONLINE</strong></span>
         </div>
-        <button class="icon-btn" id="logoutBtn" title="Log out">
-          <svg viewBox="0 0 24 24"><path d="M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h5v-2H5V5h5V3Zm7.5 4-1.4 1.4L18.2 11H9v2h9.2l-2.1 2.6 1.4 1.4L22 12l-4.5-5Z"/></svg>
-        </button>
       </div>
     </header>
 
@@ -253,7 +161,7 @@
               <svg viewBox="0 0 24 24" class="stat-ico accent"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2Z"/></svg>
             </div>
             <div class="big-number" id="protectedFiles">0</div>
-            <span class="stat-foot"><span class="up">&#9650;</span> continuously monitored</span>
+            <span class="stat-foot"><span class="up">&#9650;</span> based on recorded scans</span>
           </article>
 
           <!-- Network Status -->
@@ -263,29 +171,10 @@
               <svg viewBox="0 0 24 24" class="stat-ico accent"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8Z"/></svg>
             </div>
             <div class="big-number ok" id="networkStatus">Secure</div>
-            <span class="stat-foot"><span id="activeConnections">0</span> active connections</span>
+            <span class="stat-foot">Network monitoring unavailable</span>
           </article>
 
-          <!-- CPU Usage -->
-          <article class="card stat-card">
-            <div class="stat-top">
-              <span class="stat-label">CPU Usage</span>
-              <span class="mono" id="cpuValue">0%</span>
-            </div>
-            <div class="bar-track"><div class="bar-fill accent" id="cpuBar"></div></div>
-            <canvas class="spark" id="cpuSpark" height="46"></canvas>
-          </article>
-
-          <!-- RAM Usage -->
-          <article class="card stat-card">
-            <div class="stat-top">
-              <span class="stat-label">RAM Usage</span>
-              <span class="mono" id="ramValue">0%</span>
-            </div>
-            <div class="bar-track"><div class="bar-fill success" id="ramBar"></div></div>
-            <canvas class="spark" id="ramSpark" height="46"></canvas>
-          </article>
-        </div>
+</div>
 
         <!-- Wide activity chart -->
         <article class="card wide-card">
@@ -419,15 +308,8 @@
             </div>
           </article>
 
-          <article class="card wide-card">
-            <div class="card-head"><h3>Traffic Graph</h3>
-              <span class="legend"><i class="dot accent"></i>Inbound <i class="dot success"></i>Outbound</span>
-            </div>
-            <canvas id="trafficChart" height="150"></canvas>
-          </article>
-
-          <article class="card">
-            <div class="card-head"><h3>Packets</h3></div>
+<article class="card">
+            <div class="card-head"><h3>Packets</h3><span class="muted">Native monitor not connected</span></div>
             <div class="packet-stats">
               <div><span class="mono big" id="packetsIn">0</span><small>Inbound</small></div>
               <div><span class="mono big" id="packetsOut">0</span><small>Outbound</small></div>
@@ -525,21 +407,6 @@
   <!-- PWA: service worker registration + install button (loads after app logic) -->
   <script src="pwa.js"></script>
 
-<script>
-(function(){
-  const screen=document.getElementById('modeChoiceScreen');
-  const scanner=document.getElementById('chooseScanner');
-  const academy=document.getElementById('chooseAcademy');
-  if(!screen||!scanner||!academy) return;
-  scanner.addEventListener('click',()=>{
-    screen.style.display='none';
-    document.body.classList.add('scanner-mode');
-  });
-  academy.addEventListener('click',()=>{
-    academy.disabled=true;
-    window.location.href='academy.html';
-  });
-})();
-</script>
+
 </body>
 </html>
