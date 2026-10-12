@@ -138,7 +138,7 @@ function switchPage(page) {
     p.classList.toggle("active", active);
   });
   // Lazy-init the network map the first time it is shown
-  if (page === "network" && !state.mapReady) buildWorldMap();
+  // Network page intentionally shows an unavailable state until a native monitor exists.
 }
 
 /* =============================================================
@@ -155,8 +155,6 @@ function bootDashboard() {
 
   // Rebuild the threats table + badge from any persisted medium+ scans
   restoreThreatsFromHistory();
-
-  drawActivityChart();
   renderLogs();           // initial timeline
 }
 
@@ -270,25 +268,7 @@ function startMiniBars() {
 
 /* Dashboard activity chart (bars: blocked vs detected) */
 function drawActivityChart() {
-  const canvas = $("#activityChart");
-  const ctx = canvas.getContext("2d");
-  const w = canvas.width = canvas.offsetWidth;
-  const h = canvas.height;
-  ctx.clearRect(0, 0, w, h);
-
-  const points = 24, pad = 6;
-  const barW = (w - pad * 2) / points;
-  for (let i = 0; i < points; i++) {
-    const blocked = randi(10, h - 20);
-    const detected = randi(3, blocked * 0.5);
-    const x = pad + i * barW;
-    // blocked (accent)
-    ctx.fillStyle = "rgba(0,229,255,0.55)";
-    ctx.fillRect(x + barW * 0.2, h - blocked, barW * 0.35, blocked);
-    // detected (danger)
-    ctx.fillStyle = "rgba(255,59,92,0.7)";
-    ctx.fillRect(x + barW * 0.55, h - detected, barW * 0.35, detected);
-  }
+  // Activity telemetry was removed because no native network monitor exists.
 }
 
 /* =============================================================
@@ -672,26 +652,26 @@ function nowTime() {
   return String(n.getHours()).padStart(2, "0") + ":" + String(n.getMinutes()).padStart(2, "0");
 }
 
-const logs = [
-  { time: "10:31", title: "USB Device Connected", desc: "Kingston DataTraveler scanned - clean.", kind: "" },
-  { time: "11:12", title: "Suspicious Login Attempt", desc: "Blocked login from 185.220.x.x (TOR exit node).", kind: "danger" },
-  { time: "12:04", title: "Network Scan Completed", desc: "142 endpoints verified, 0 rogue devices.", kind: "success" },
-  { time: "12:30", title: "Threat Quarantined", desc: "trojan.invoice.pdf.exe isolated automatically.", kind: "danger" },
-];
+const logs = [];
 
 function renderLogs() {
-  const ul = $("#timeline");
-  ul.innerHTML = logs.map((l) => `
-    <li class="${l.kind}">
-      <div class="t-time">${l.time}</div>
-      <div class="t-title">${l.title}</div>
-      <div class="t-desc">${l.desc}</div>
-    </li>`).join("");
+  const container = $("#logsTimeline") || $("#timeline");
+  if (!container) return;
+  if (!logs.length) {
+    container.innerHTML = '<p class="muted">No recorded events yet. Scan a file to create a real event entry.</p>';
+    return;
+  }
+  container.innerHTML = logs.map((l) => `
+    <div class="log-entry ${l.kind}">
+      <div class="t-time">${escapeHtml(l.time)}</div>
+      <div class="t-title">${escapeHtml(l.title)}</div>
+      <div class="t-desc">${escapeHtml(l.desc)}</div>
+    </div>`).join("");
 }
 
 function addLog(time, title, desc, kind = "") {
   logs.unshift({ time, title, desc, kind });
-  if (logs.length > 20) logs.pop();
+  if (logs.length > 100) logs.pop();
   renderLogs();
 }
 
@@ -701,8 +681,9 @@ function addLog(time, title, desc, kind = "") {
 
 /* Simplified continents drawn as SVG blobs + animated connection nodes */
 function buildWorldMap() {
-  state.mapReady = true;
   const wrap = $("#worldMap");
+  if (!wrap) return;
+  state.mapReady = true;
   const NS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(NS, "svg");
   svg.setAttribute("viewBox", "0 0 200 100");
@@ -874,19 +855,10 @@ function initSettings() {
 
   $("#setAutoScan").addEventListener("change", (e) => {
     if (e.target.checked) {
-      toast("Real-time Monitoring On", "Folder watching is a demo indicator in this build.", "accent");
-      // The real engine only scans files the user selects (browsers cannot
-      // silently read the filesystem). We surface a periodic heartbeat so the
-      // "monitoring" indicator is honest rather than inventing fake threats.
-      state.autoScanTimer = setInterval(() => {
-        if (state.currentPage !== "scanner") {
-          const s = window.CS_LOGGER ? window.CS_LOGGER.stats() : { total: 0 };
-          addLog(nowTime(), "Monitoring heartbeat", `Engine idle - ${s.total} file(s) scanned so far.`, "");
-        }
-      }, 30000);
+      toast("Automatic scanning unavailable", "Background folder monitoring is not implemented in this build.", "warning");
     } else {
       clearInterval(state.autoScanTimer);
-      toast("Real-time Monitoring Off", "Monitoring heartbeat stopped.", "accent");
+      toast("Automatic scanning disabled", "No background monitor is active.", "accent");
     }
   });
 
