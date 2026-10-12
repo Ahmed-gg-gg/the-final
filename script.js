@@ -28,7 +28,6 @@ function escapeHtml(str) {
 
 /* Application state (kept in memory only) */
 const state = {
-  loggedIn: false,
   currentPage: "dashboard",
   threats: [],            // threats detected by the latest scan
   autoScanTimer: null,
@@ -89,22 +88,11 @@ function initLogin() {
 
 /* Fade from login into the dashboard shell */
 function enterDashboard() {
-  state.loggedIn = true;
-  $("#loginScreen").style.display = "none";
   const shell = $("#appShell");
+  if (!shell) return;
   shell.hidden = false;
   shell.classList.add("entering");
-
-  bootDashboard();                    // start live data + charts
-  toast("System Online", "CyberShield AI engine initialized successfully.", "success");
-  // A couple of delayed "live" notifications for realism
-  setTimeout(() => toast("Cloud AI Connected", "Threat intelligence feed synced.", "accent"), 3200);
-  setTimeout(() => toast("Firewall Active", "248 rules loaded and enforced.", "accent"), 6400);
-}
-
-function logout() {
-  clearInterval(state.autoScanTimer);
-  location.reload(); // simplest clean reset back to login
+  bootDashboard();
 }
 
 /* =============================================================
@@ -140,7 +128,6 @@ function initRouting() {
   });
 
   $("#menuToggle").addEventListener("click", () => $("#sidebar").classList.toggle("open"));
-  $("#logoutBtn").addEventListener("click", logout);
 }
 
 function switchPage(page) {
@@ -165,18 +152,12 @@ function bootDashboard() {
   animateGauge("#threatLevelValue", ".gauge-fill:not(.success)", stats.avgScore, "#threatLevelLabel");
   animateGauge("#systemHealthValue", ".gauge-fill.success", 100 - Math.min(60, stats.avgScore));
   countUp("#protectedFiles", stats.total);
-  countUp("#activeConnections", randi(40, 180));
 
   // Rebuild the threats table + badge from any persisted medium+ scans
   restoreThreatsFromHistory();
 
   drawActivityChart();
-  startLiveMetrics();     // CPU / RAM sparklines + bars (system telemetry - still simulated)
-  startMiniBars();        // sidebar live traffic
   renderLogs();           // initial timeline
-  startTrafficChart();    // network page traffic graph
-  startPacketCounters();
-  scheduleRandomNotifications();
 }
 
 /* Rebuild the in-memory threats list from persisted scan history. */
@@ -1068,14 +1049,14 @@ function initMouseGlow() {
    13) BOOTSTRAP
    ============================================================= */
 document.addEventListener("DOMContentLoaded", () => {
-  // background effects run on the login screen too
+  // Background effects and dashboard start directly; no fake login flow.
   initMatrix();
   initParticles();
   initMouseGlow();
 
   // app wiring
-  initLogin();
   initRouting();
   initScanner();
   initSettings();
+  enterDashboard();
 });
